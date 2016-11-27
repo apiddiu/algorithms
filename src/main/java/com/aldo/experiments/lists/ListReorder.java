@@ -1,21 +1,21 @@
 package com.aldo.experiments.lists;
 
 public class ListReorder {
-    public void reorder(ListNode n) {
+    public void reorder(Node n) {
         int count = count(n);
         int halfWay = count / 2 + count % 2;
-        ListNode left = n;
-        ListNode right = null;
+        Node left = n;
+        Node right = null;
 
         int steps = 1;
         while (n!=null){
-            ListNode next = n.getNext();
+            Node next = n.next;
 
             if(steps==halfWay){
-                n.setNext(null);
+                n.next=null;
             }
             if(steps>halfWay){
-                n.setNext(right);
+                n.next=right;
                 right=n;
             }
 
@@ -24,20 +24,20 @@ public class ListReorder {
         }
 
         while (right!=null){
-            ListNode nl = left.getNext();
-            ListNode nr = right.getNext();
-            left.setNext(right);
-            right.setNext(nl);
+            Node nl = left.next;
+            Node nr = right.next;
+            left.next=right;
+            right.next=nl;
             left = nl;
             right = nr;
         }
     }
 
-    int count(ListNode n) {
+    int count(Node n) {
         int count = 0;
         while (n!=null) {
             ++count;
-            n = n.getNext();
+            n = n.next;
         }
         return count;
     }

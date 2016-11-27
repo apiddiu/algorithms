@@ -1,6 +1,5 @@
 package com.aldo.experiments.lists;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,31 +37,80 @@ public class ListReorderTest {
         testReorder(expected);
     }
 
+    @Test
+    public void listReorderLongRun() {
+        Node<Integer> list = buildList(100000);
+        long fast, slow, tot;
+        fast = Long.MAX_VALUE;
+        slow = tot = 0;
+
+        for (int i = 0; i < 100; i++) {
+            long start = System.currentTimeMillis();
+            lr.reorder(list);
+            long end = System.currentTimeMillis();
+
+            long time = end - start;
+
+            if (time > slow) slow = time;
+            if (time < fast) fast = time;
+            tot += time;
+        }
+
+        System.out.println("Fast: " + fast);
+        System.out.println("Slow: " + slow);
+        System.out.println("Avg: " + tot / 100);
+    }
+
+    @Test
+    public void listReorderLongRunOthers() {
+        ListReorderOthers lro = new ListReorderOthers();
+        Node<Integer> list = buildList(100000);
+        long fast, slow, tot;
+        fast = Long.MAX_VALUE;
+        slow = tot = 0;
+
+        for (int i = 0; i < 100; i++) {
+            long start = System.currentTimeMillis();
+            lro.reorderlist(list);
+            long end = System.currentTimeMillis();
+
+            long time = end - start;
+
+            if (time > slow) slow = time;
+            if (time < fast) fast = time;
+            tot += time;
+        }
+
+        System.out.println("Fast: " + fast);
+        System.out.println("Slow: " + slow);
+        System.out.println("Avg: " + tot / 100);
+    }
+
     private void testReorder(Integer[] expectedItems) {
-        ListNode<Integer> list = buildList(expectedItems.length);
+        Node<Integer> list = buildList(expectedItems.length);
         lr.reorder(list);
         checkItemsSequence(expectedItems, list);
     }
 
-    private <T> void checkItemsSequence(T[] expectedItems, ListNode<T> list) {
+    private <T> void checkItemsSequence(T[] expectedItems, Node<T> list) {
         int count = 0;
 
         while (list != null) {
-            assertEquals(expectedItems[count], list.getVal());
+            assertEquals(expectedItems[count], list.val);
             ++count;
             System.out.print(list);
             if (list.hasNext()) System.out.print("->");
-            list = list.getNext();
+            list = list.next;
 
         }
         System.out.println();
     }
 
-    private ListNode<Integer> buildList(int itemsCount) {
-        ListNode<Integer> head = null;
+    private Node<Integer> buildList(int itemsCount) {
+        Node<Integer> head = null;
 
         for (int i = itemsCount; i > 0; i--) {
-            head = new ListNode(i, head);
+            head = new Node(i, head);
         }
 
         return head;
