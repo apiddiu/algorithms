@@ -36,6 +36,7 @@ public class MovieRecomendationEngineTest {
 
         m52.addSimilarMovie(m47);
         m52.addSimilarMovie(m45);
+        m45.addSimilarMovie(m52);
 //        m52.addSimilarMovie(m53);
 
         m50.addSimilarMovie(m48);
